@@ -5,6 +5,8 @@
     "name": "MIT",
     "url": "https://opensource.org/licenses/MIT"
   },
+
+  "openapi": "3.0.0",
   "version": "1.0.0",
   "host": "localhost:3000",
   "basePath": "/api",

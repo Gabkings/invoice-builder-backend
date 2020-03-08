@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(morgan("dev"));
 app.use(
-  "api-doc",
+  "/api-doc",
   swaggerUI.serve,
   swaggerUI.setup(swaggerDocument, {
     explorer: true
