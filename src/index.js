@@ -2,6 +2,7 @@ const express = require("express");
 import mongoose from "mongoose";
 import morgan from "morgan";
 import swaggerUI from "swagger-ui-express";
+import cors from "cors";
 mongoose.Promise = global.Promise;
 mongoose
   .connect("mongodb://localhost/invoice-builder")
@@ -22,6 +23,7 @@ app.use(
     explorer: true
   })
 );
+app.use(cors());
 app.use("/api", router);
 app.use((req, res, next) => {
   const error = new Error("Not Found");

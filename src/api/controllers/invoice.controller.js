@@ -2,8 +2,25 @@ import Joi from "joi";
 import HttpStatus from "http-status-codes";
 import Invoice from "../models/invoice.models";
 export default {
-  findAllInvoices(req, res, next) {
-    Invoice.find()
+  findAll(req, res, next) {
+    const { page = 1, perPage = 10, filter, sortField, sortDir } = req.query;
+    const options = {
+      page: parseInt(page, 10),
+      limit: parseInt(perPage, 10),
+    };
+    const query = {};
+    if (filter) {
+      query.item = {
+        $regex: filter,
+      };
+    }
+    if (sortField && sortDir) {
+      options.sort = {
+        [sortField]: sortDir,
+      };
+    }
+    console.log(options);
+    Invoice.paginate(query, options)
       .then(invoices => res.json(invoices))
       .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err));
   },
@@ -25,15 +42,15 @@ export default {
       .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err));
   },
   findOne(req, res) {
-    let { id } = req.params;
-    Invoice.findOne({ id })
+    const { id } = req.params;
+    Invoice.findById(id)
       .then(invoice => {
         if (!invoice) {
           return res
             .status(HttpStatus.NOT_FOUND)
-            .json({ error: "Could not find Invoice" });
+            .json({ err: "Could not find any invoice" });
         }
-        return res.status(HttpStatus.OK).json(invoice);
+        return res.json(invoice);
       })
       .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err));
   },

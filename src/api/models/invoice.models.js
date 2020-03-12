@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongoose_paginate from "mongoose-paginate";
 const { Schema } = mongoose;
 
 const InvoiceSchema = new Schema({
@@ -26,5 +27,5 @@ const InvoiceSchema = new Schema({
     required: true
   }
 });
-
+InvoiceSchema.plugin(mongoose_paginate);
 export default mongoose.model("Invoice", InvoiceSchema);
