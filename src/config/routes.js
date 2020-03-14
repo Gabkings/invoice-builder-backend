@@ -1,4 +1,4 @@
-import invoiceController from "../api/controllers/invoice.controller";
+import invoiceController from "../api/resources/invoices/controllers/invoice.controller";
 
 const express = require("express");
 

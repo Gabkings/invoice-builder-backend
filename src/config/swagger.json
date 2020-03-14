@@ -5,8 +5,6 @@
     "name": "MIT",
     "url": "https://opensource.org/licenses/MIT"
   },
-
-  "openapi": "3.0.0",
   "version": "1.0.0",
   "host": "localhost:3000",
   "basePath": "/api",
@@ -14,12 +12,117 @@
     {
       "name": "Invocies",
       "description": "API for Inovice"
+    },
+    {
+      "name": "Clients",
+      "description": "API for Client"
     }
   ],
   "schemes": ["http"],
   "consumes": ["application/json"],
   "produces": ["application/json"],
   "paths": {
+    "/Clients": {
+      "post": {
+        "tags": ["Clients"],
+        "summary": "Create new Client",
+        "description": "Create new Client in the System",
+        "parameters": [
+          {
+            "name": "client",
+            "description": "client that we want to create",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#definitions/Client"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "new client is created",
+            "schema": {
+              "$ref": "#definitions/Client"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Clients"],
+        "summary": "FInd all Clients from the server",
+        "description": "All clients",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#definitions/Clients"
+            }
+          }
+        }
+      }
+    },
+    "/Clients/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "Id of the Client",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": ["Clients"],
+        "description": "Find the Client by id",
+        "summary": "Find single Client",
+        "responses": {
+          "200": {
+            "description": "Client has found",
+            "schema": {
+              "$ref": "#definitions/Client"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Clients"],
+        "description": "Delete the Client by id",
+        "summary": "Delete single Client",
+        "responses": {
+          "200": {
+            "description": "Client has deleted",
+            "schema": {
+              "$ref": "#definitions/Client"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Clients"],
+        "summary": "Update an Client",
+        "description": "Update Client in the System",
+        "parameters": [
+          {
+            "name": "client",
+            "description": "Client that we want to udpate",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#definitions/UpdateClient"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Client is updated",
+            "schema": {
+              "$ref": "#definitions/Client"
+            }
+          }
+        }
+      }
+    },
     "/Invoices": {
       "post": {
         "tags": ["Invocies"],
@@ -155,8 +258,45 @@
     }
   },
   "definitions": {
+    "Client": {
+      "required": ["firstName", "lastName", "email"],
+      "properties": {
+        "_id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "UpdateClient": {
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "Clients": {
+      "type": "array",
+      "items": {
+        "$ref": "#definitions/Client"
+      }
+    },
     "Invoice": {
-      "required": ["item, qty, date, due"],
+      "required": ["item", "qty", "date", "due", "client"],
       "properties": {
         "_id": {
           "type": "string",
@@ -184,6 +324,9 @@
         "tax": {
           "type": "number",
           "format": "float"
+        },
+        "client": {
+          "type": "string"
         }
       }
     },
@@ -211,6 +354,9 @@
         "tax": {
           "type": "number",
           "format": "float"
+        },
+        "client": {
+          "type": "string"
         }
       }
     },

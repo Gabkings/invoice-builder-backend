@@ -25,6 +25,11 @@ const InvoiceSchema = new Schema({
   tax: {
     type: Number,
     required: true
+  },
+  client: {
+    ref: "Client",
+    type: Schema.Types.ObjectId,
+    required: true
   }
 });
 InvoiceSchema.plugin(mongoose_paginate);

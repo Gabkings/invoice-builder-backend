@@ -7,16 +7,17 @@ export default {
     const options = {
       page: parseInt(page, 10),
       limit: parseInt(perPage, 10),
+      populate: "client"
     };
     const query = {};
     if (filter) {
       query.item = {
-        $regex: filter,
+        $regex: filter
       };
     }
     if (sortField && sortDir) {
       options.sort = {
-        [sortField]: sortDir,
+        [sortField]: sortDir
       };
     }
     console.log(options);
@@ -31,7 +32,8 @@ export default {
       due: Joi.date().required(),
       qty: Joi.number().required(),
       tax: Joi.number().required(),
-      rate: Joi.number().optional()
+      rate: Joi.number().optional(),
+      client: Joi.string().required()
     });
     const { error, value } = Joi.validate(req.body, schema);
     if (error && error.details) {
@@ -77,7 +79,8 @@ export default {
         .integer()
         .optional(),
       tax: Joi.number().optional(),
-      rate: Joi.number().optional()
+      rate: Joi.number().optional(),
+      client: Joi.string().optional()
     });
     const { error, value } = Joi.validate(req.body, schema);
     if (error && error.details) {

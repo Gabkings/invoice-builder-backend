@@ -9,8 +9,10 @@ mongoose
   .then(console.log("connected"))
   .catch(err => console.log(err));
 const app = express();
-import { router } from "./config/routes";
 import swaggerDocument from "./config/swagger.json";
+import { invoiceRoutes } from "./api/resources/invoices";
+import { clientRouter } from "./api/resources/clients";
+
 const PORT = 3000;
 
 app.use(express.json());
@@ -24,7 +26,8 @@ app.use(
   })
 );
 app.use(cors());
-app.use("/api", router);
+app.use("/api", invoiceRoutes);
+app.use("/api", clientRouter);
 app.use((req, res, next) => {
   const error = new Error("Not Found");
   error.status = 404;
